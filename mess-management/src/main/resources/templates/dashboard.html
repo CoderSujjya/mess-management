@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+
+
+
+
+<style>
+body{
+    background-image: url('/images/background1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
+
+
+
+
+
+
+<div class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="page-title">Dashboard</h2>
+        <div>
+            <a th:href="@{/export/excel(status=${statusFilter}, name=${nameFilter})}" 
+            class="btn btn-success btn-sm">Export Excel</a>
+            <a th:href="@{/export/pdf(status=${statusFilter}, name=${nameFilter})}" 
+            class="btn btn-danger btn-sm">Export PDF</a>
+
+        </div>
+    </div>
+
+    <form class="row g-2 mb-3" method="get" th:action="@{/}">
+        <div class="col-auto">
+            <input type="text" name="name" class="form-control" placeholder="Search by name" th:value="${nameFilter}"/>
+        </div>
+        <div class="col-auto">
+            <select name="status" class="form-select">
+                <option value="ALL" th:selected="${statusFilter == 'ALL'}">All statuses</option>
+                <option value="ACTIVE" th:selected="${statusFilter == 'ACTIVE'}">Active only</option>
+                <option value="UPCOMING" th:selected="${statusFilter == 'UPCOMING'}">Coming soon</option>
+                <option value="EXPIRED" th:selected="${statusFilter == 'EXPIRED'}">Expired only</option>
+                <option value="NO_PAYMENT" th:selected="${statusFilter == 'NO_PAYMENT'}">No payment yet</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-secondary">Filter</button>
+             <button type="submit" class="btn btn-secondary">Reset</button>
+
+        </div>
+    </form>
+
+    <div th:if="${#lists.isEmpty(rows)}" class="alert alert-light border">
+        No students match this filter. <a href="/students/new">Add a student</a> to get started.
+    </div>
+
+    <div class="table-responsive" th:if="${!#lists.isEmpty(rows)}">
+        <table class="table table-bordered bg-white align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Student</th>
+                <th>Status</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Days remaining</th>
+                <th>Last payment date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${rows}"
+                th:classappend="${row.status == 'EXPIRED'} ? 'row-expired' : (${row.status == 'UPCOMING'} ? 'row-upcoming' : (${row.expiringSoon} ? 'row-expiring' : ''))">
+                <td th:text="${row.studentName}">Student</td>
+                <td>
+                    <span class="badge status-badge"
+                          th:classappend="${row.status == 'ACTIVE' and !row.expiringSoon} ? 'status-active' : (${row.status == 'ACTIVE' and row.expiringSoon} ? 'status-expiring' : (${row.status == 'UPCOMING'} ? 'status-upcoming' : (${row.status == 'EXPIRED'} ? 'status-expired' : 'status-none')))"
+                          th:text="${row.status == 'ACTIVE'} ? (${row.expiringSoon} ? 'Active (expiring soon)' : 'Active') : (${row.status == 'UPCOMING'} ? 'Coming soon' : (${row.status == 'EXPIRED'} ? 'Expired' : 'No payment yet'))">
+                        Status
+                    </span>
+                </td>
+                <td class="date-col-start" th:text="${row.startDate != null} ? ${#temporals.format(row.startDate, 'dd-MMM-yyyy')} : '-'">-</td>
+                <td class="date-col-mid" th:text="${row.endDate != null} ? ${#temporals.format(row.endDate, 'dd-MMM-yyyy')} : '-'">-</td>
+                <td class="date-col-end" th:text="${row.daysRemaining != null} ? (${row.daysRemaining} + ' days') : '-'">-</td>
+                <td th:text="${row.lastPaymentDate != null} ? ${#temporals.format(row.lastPaymentDate, 'dd-MMM-yyyy')} : '-'">-</td>
+                <td>
+                    <a th:href="@{/payments/new/{id}(id=${row.studentId})}" class="btn btn-sm btn-outline-primary">Add payment</a>
+                    <a th:href="@{/students/{id}/history(id=${row.studentId})}" class="btn btn-sm btn-outline-secondary">History</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

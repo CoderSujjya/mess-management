@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead(${isEdit} ? 'Edit student' : 'Add student')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+
+<style>
+body{
+    background-image: url('/images/background1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
+
+
+<div class="container pb-5" style="max-width: 560px;">
+    <h2 class="page-title mb-3" th:text="${isEdit} ? 'Edit student' : 'Add student'">Add student</h2>
+
+    <form th:action="${isEdit} ? @{/students/edit/{id}(id=${student.id})} : @{/students}"
+          th:object="${student}" method="post" class="card p-4 bg-white">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" th:field="*{name}" placeholder="e.g. Rahul Sharma"/>
+            <div class="text-danger small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" th:field="*{phone}" placeholder="10-digit number"/>
+            <div class="text-danger small" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" placeholder="name@example.com"/>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea class="form-control" th:field="*{address}" rows="2"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success" th:text="${isEdit} ? 'Save changes' : 'Add student'">Save</button>
+        <a href="/students" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

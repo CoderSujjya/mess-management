@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Payment history')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+
+<style>
+body{
+    background-image: url('/images/background1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
+
+
+
+<div class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="page-title mb-0" th:text="${student.name}">Student</h2>
+            <p class="text-secondary mb-0">Payment history</p>
+        </div>
+        <a th:href="@{/payments/new/{id}(id=${student.id})}" class="btn btn-success btn-sm">+ Add payment</a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(payments)}" class="alert alert-light border">
+        No payments recorded yet for this student.
+    </div>
+
+    <div class="table-responsive" th:if="${!#lists.isEmpty(payments)}">
+        <table class="table table-bordered bg-white align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Amount paid (₹)</th>
+                <th>Payment date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${payments}">
+                <td th:text="${#temporals.format(p.startDate, 'dd-MMM-yyyy')}">-</td>
+                <td th:text="${#temporals.format(p.endDate, 'dd-MMM-yyyy')}">-</td>
+                <td th:text="${p.amountPaid}">-</td>
+                <td th:text="${#temporals.format(p.paymentDate, 'dd-MMM-yyyy')}">-</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="/students" class="btn btn-outline-secondary mt-2">Back to students</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Record payment')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+
+<style>
+body{
+    background-image: url('/images/background1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
+
+
+<div class="container pb-5" style="max-width: 560px;">
+    <h2 class="page-title mb-1">Record payment</h2>
+    <p class="text-secondary mb-3">For <strong th:text="${student.name}">Student</strong></p>
+
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/payments/{id}(id=${student.id})}" th:object="${payment}" method="post" class="card p-4 bg-white">
+
+        <div class="mb-3">
+            <label class="form-label">Amount paid (₹)</label>
+            <input type="number" step="0.01" min="0" class="form-control" th:field="*{amountPaid}"/>
+            <div class="text-danger small" th:if="${#fields.hasErrors('amountPaid')}" th:errors="*{amountPaid}"></div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Payment start date</label>
+                <input type="date" class="form-control" th:field="*{startDate}"/>
+                <div class="text-danger small" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Payment end date</label>
+                <input type="date" class="form-control" th:field="*{endDate}"/>
+                <div class="text-danger small" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Payment date</label>
+            <input type="date" class="form-control" th:field="*{paymentDate}"/>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save payment</button>
+        <a href="/" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

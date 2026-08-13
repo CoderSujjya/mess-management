@@ -1,0 +1,126 @@
+body {
+    background-color: #F7F2E7;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+
+
+.mess-logo-img{
+    width:50px;
+    height:50px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+.brand-mark{
+    width:70px;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+
+
+
+.navbar-brand span{
+    font-size: 1.5rem;      /* Increase text size */
+    font-weight: bold;
+    color: white;
+     text-shadow: 2px 2px 5px black;
+}
+
+
+
+.mess-navbar{
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2.2px);
+}
+
+.brand-text{
+    line-height:1;
+}
+
+.brand-line1{
+    font-size:1.4rem;
+    font-weight:700;
+}
+
+.brand-line2{
+    font-size:1rem;
+    font-weight:600;
+}
+
+.card {
+    border: 1px solid #E3D9C2;
+}
+
+.status-badge {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.status-active {
+    background-color: #d4edda;
+    color: #1e5b34;
+}
+
+.status-expired {
+    background-color: #f8d7da;
+    color: #7a1f2b;
+}
+
+.status-none {
+    background-color: #e2e3e5;
+    color: #41464b;
+}
+
+.status-upcoming {
+    background-color: #cfe2ff;
+    color: #1a4a8a;
+}
+
+.status-expiring {
+    background-color: #fff3cd;
+    color: #7a5b00;
+}
+
+.row-expired {
+    background-color: #fdecec;
+}
+
+.row-upcoming {
+    background-color: #f2f7ff;
+}
+
+.row-expiring {
+    background-color: #fff8e6;
+}
+
+.date-col-start {
+    border-left: 3px solid #2F4A3D;
+}
+
+.date-col-end {
+    border-right: 3px solid #2F4A3D;
+}
+
+.page-title {
+    font-weight: 6000;
+    color: #f2f7ff;
+}
+
+@media (max-width: 767px) {
+    .table {
+        font-size: 0.8rem;
+    }
+    .table th,
+    .table td {
+        padding: 0.4rem 0.5rem;
+        white-space: nowrap;
+    }
+    .table .btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.75rem;
+    }
+}

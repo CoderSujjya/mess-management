@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Error')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+
+
+<style>
+body{
+    background-image: url('/images/background1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
+
+
+<div class="container pb-5" style="max-width: 560px;">
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Something went wrong</h4>
+        <p th:text="${message}">An error occurred.</p>
+    </div>
+    <a href="/" class="btn btn-outline-secondary">Back to dashboard</a>
+</div>
+</body>
+</html>
